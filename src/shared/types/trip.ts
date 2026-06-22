@@ -1,3 +1,5 @@
+export type TripCategory = 'Executivo' | 'Leito' | 'Semi-leito' | 'Convencional';
+
 export interface Trip {
   id: string;
   origin: string;
@@ -6,6 +8,7 @@ export interface Trip {
   departureTime: string;
   arrivalTime: string;
   duration: string;
+  category: TripCategory;
   price: number;
   availableSeats: number;
 }

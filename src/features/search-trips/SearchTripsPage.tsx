@@ -65,6 +65,11 @@ export default function SearchTripsPage() {
     navigate(`/trips/${trip.id}/seats`);
   };
 
+  const cheapestTrip = trips?.reduce((currentCheapest, trip) =>
+    !currentCheapest || trip.price < currentCheapest.price ? trip : currentCheapest,
+    null as Trip | null,
+  );
+  const cheapestTripId = cheapestTrip?.id;
   const isPluralTrip = trips?.length !== 1;
 
   return (
@@ -205,20 +210,38 @@ export default function SearchTripsPage() {
               <Card key={trip.id} className="hover:shadow-lg cursor-pointer">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-slate-900">
-                      {trip.origin} → {trip.destination}
-                    </h3>
-                    <div className="flex flex-wrap gap-4 mt-2 text-sm text-slate-600">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-lg font-bold text-slate-900">
+                        {trip.origin} → {trip.destination}
+                      </h3>
+                      {trip.id === cheapestTripId && (
+                        <span className="rounded-full bg-emerald-100 text-emerald-800 px-2 py-0.5 text-xs font-semibold">
+                          Melhor preço
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-slate-600">
+                      <span className="text-slate-500">{trip.category}</span>
                       <span>📅 {trip.departureDate}</span>
                       <span>🕐 {trip.departureTime}</span>
                       <span>⏱️ {trip.duration}</span>
-                      <span>💺 {trip.availableSeats} lugares disponíveis</span>
+                    </div>
+                    <div className="mt-3 text-sm">
+                      {trip.availableSeats <= 5 ? (
+                        <span className="font-semibold text-orange-600">
+                          Restam apenas {trip.availableSeats} assentos
+                        </span>
+                      ) : (
+                        <span className="text-slate-600">
+                          💺 {trip.availableSeats} lugares disponíveis
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   <div className="flex items-end justify-between md:flex-col md:text-right gap-3">
                     <div>
-                      <p className="text-sm text-slate-600">Preço por assento</p>
+                      <p className="text-sm text-slate-600">Por pessoa</p>
                       <p className="text-3xl font-bold text-blue-600">
                         R$ {trip.price.toFixed(2)}
                       </p>
