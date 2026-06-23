@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
+
 interface EmptyStateProps {
-  readonly icon?: string;
+  readonly icon?: ReactNode;
   readonly title: string;
   readonly description?: string;
 }

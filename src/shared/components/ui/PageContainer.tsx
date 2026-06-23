@@ -1,11 +1,16 @@
 import { ReactNode } from 'react';
 
 interface PageContainerProps {
-  children: ReactNode;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
+  readonly children: ReactNode;
+  readonly maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
+  readonly className?: string;
 }
 
-export default function PageContainer({ children, maxWidth = 'lg' }: PageContainerProps) {
+export default function PageContainer({
+  children,
+  maxWidth = 'lg',
+  className = '',
+}: PageContainerProps) {
   const maxWidthClass = {
     sm: 'max-w-2xl',
     md: 'max-w-4xl',
@@ -14,7 +19,9 @@ export default function PageContainer({ children, maxWidth = 'lg' }: PageContain
   }[maxWidth];
 
   return (
-    <div className={`w-full ${maxWidthClass} mx-auto px-4 py-8`}>
+    <div
+      className={`w-full ${maxWidthClass} mx-auto px-4 sm:px-6 lg:px-8 py-8 ${className}`.trim()}
+    >
       {children}
     </div>
   );

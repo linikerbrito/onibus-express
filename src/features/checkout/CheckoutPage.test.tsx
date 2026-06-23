@@ -4,8 +4,9 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import CheckoutPage from './CheckoutPage';
 import { renderWithProviders } from '../../tests/test-utils';
 import { useReservationStore } from '../../stores/reservation.store';
+import type { Trip } from '../../shared/types/trip';
 
-const trip = {
+const trip: Trip = {
   id: 'trip-1',
   origin: 'São Paulo',
   destination: 'Rio de Janeiro',
@@ -13,6 +14,7 @@ const trip = {
   departureTime: '08:00',
   arrivalTime: '14:30',
   duration: '6h 30m',
+  category: 'Executivo',
   price: 189.9,
   availableSeats: 12,
 };
@@ -27,7 +29,7 @@ describe('CheckoutPage', () => {
 
     renderWithProviders(<CheckoutPage />);
 
-    await userEvent.click(screen.getByRole('button', { name: /finalizar compra/i }));
+    await userEvent.click(screen.getByRole('button', { name: /confirmar e pagar/i }));
 
     expect(await screen.findByText(/Informe o nome completo/i)).toBeInTheDocument();
   });
@@ -40,7 +42,7 @@ describe('CheckoutPage', () => {
     await userEvent.type(screen.getByLabelText(/nome completo/i), 'Teste');
     await userEvent.type(screen.getByLabelText(/cpf/i), '123');
     await userEvent.type(screen.getByLabelText(/e-mail/i), 'invalid-email');
-    await userEvent.click(screen.getByRole('button', { name: /finalizar compra/i }));
+    await userEvent.click(screen.getByRole('button', { name: /confirmar e pagar/i }));
 
     expect(await screen.findByText(/CPF deve ter 11 dígitos numéricos/i)).toBeInTheDocument();
     expect(screen.getByText(/Informe um email válido/i)).toBeInTheDocument();
@@ -66,7 +68,7 @@ describe('CheckoutPage', () => {
     await userEvent.type(screen.getByLabelText(/nome completo/i), 'Maria Silva');
     await userEvent.type(screen.getByLabelText(/cpf/i), '12345678901');
     await userEvent.type(screen.getByLabelText(/e-mail/i), 'maria@example.com');
-    await userEvent.click(screen.getByRole('button', { name: /finalizar compra/i }));
+    await userEvent.click(screen.getByRole('button', { name: /confirmar e pagar/i }));
 
     expect(await screen.findByText(/Reserva concluída/i)).toBeInTheDocument();
   });
