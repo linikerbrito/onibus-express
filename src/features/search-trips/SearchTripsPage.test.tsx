@@ -48,7 +48,7 @@ describe('SearchTripsPage', () => {
     await userEvent.type(destinationInput, 'Rio de Janeiro');
 
     await userEvent.click(screen.getByRole('button', {
-      name: /inverter origem e destino/i,
+      name: /inverter locais/i,
     }));
 
     expect(originInput).toHaveValue('Rio de Janeiro');
