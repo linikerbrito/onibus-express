@@ -61,6 +61,19 @@ https://onibus-express-alpha.vercel.app/
 - Consulta de reserva por código
 - Cancelamento de reserva
 
+## O que ficou de fora
+
+Por se tratar de um desafio focado no frontend, algumas funcionalidades foram simuladas através de mocks locais:
+
+- Integração com backend real
+- Autenticação de usuários
+- Processamento de pagamento
+- Persistência em banco de dados
+- Controle real de disponibilidade de assentos
+- Emissão de passagens e envio por e-mail
+
+Essas funcionalidades foram representadas por serviços mockados para permitir a validação completa do fluxo de reserva sem dependências externas.
+
 ## Fluxo da aplicação
 
 - Buscar viagem
@@ -97,6 +110,22 @@ O projeto é organizado por features para manter o fluxo de usuário claro e iso
 - `src/shared/services` usa mocks e armazenamento local para simular o backend sem adicionar complexidade extra.
 
 A concepção é propositalmente simples: cada feature possui responsabilidade única e a camada de serviços permanece desacoplada da UI.
+
+## Endpoints simulados
+
+O projeto não consome uma API real.
+
+Os dados são fornecidos através de serviços mockados localizados em:
+
+src/shared/services
+
+Os serviços simulam operações de:
+
+- Busca de viagens
+- Consulta de viagem por ID
+- Criação de reserva
+- Consulta de reserva
+- Cancelamento de reserva
 
 ### Estratégia de estado
 
