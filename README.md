@@ -17,23 +17,23 @@ OniBus Express é um frontend de reserva de passagens rodoviárias montado com R
 ## Demonstração
 
 ### Home
-
+<img width="1903" height="940" alt="home" src="https://github.com/user-attachments/assets/537c0759-6d10-478d-b312-615f5d3597d7" />
 
 
 ### Busca de viagens
-
+<img width="1898" height="923" alt="busca de viagens" src="https://github.com/user-attachments/assets/009c68c4-3ca7-417f-ad74-7c025160b6b8" />
 
 
 ### Seleção de assentos
-
+<img width="1893" height="920" alt="seleção de assentos" src="https://github.com/user-attachments/assets/85e34228-7eb2-494a-adfa-828f74d31b31" />
 
 
 ### Checkout
-
+<img width="1896" height="942" alt="checkout" src="https://github.com/user-attachments/assets/7938fd81-8617-44ae-99e7-b6a6cc7d58c7" />
 
 
 ### Consulta de reserva
-
+<img width="1895" height="882" alt="consulta de reserva" src="https://github.com/user-attachments/assets/e012b53b-16a3-4044-9862-16b977d9cbde" />
 
 
 ## Funcionalidades implementadas
@@ -73,7 +73,9 @@ OniBus Express é um frontend de reserva de passagens rodoviárias montado com R
 - Zustand
 - React Hook Form
 - Zod
+- React Number Format
 - Tailwind CSS
+- Lucide React
 - Vitest
 - React Testing Library
 - Docker
@@ -98,11 +100,24 @@ A concepção é propositalmente simples: cada feature possui responsabilidade �
 
 ## Decisões técnicas
 
-- Zustand: escolhido para estado global leve, mantendo apenas o mínimo necessário — viagem selecionada, assento selecionado e reserva. Isso evita a complexidade de estados distribuídos e mantém o fluxo previsível.
-- React Hook Form + Zod: combinação usada para validação de formulário com regras declarativas, payload tipado e experiência de formulário consistente no checkout.
-- Tailwind: optou-se por utilitários CSS para acelerar a composição de interfaces e facilitar ajustes responsivos sem sobrecarregar com CSS customizado.
-- Mocks: as APIs são simuladas com serviços locais (`localStorage` e dados em memória), o que permite desenvolver o frontend sem backend pronto e ainda manter o fluxo de reserva funcional.
-- Docker + Nginx: containerização para produção garante ambiente consistente e permite servir a aplicação estática de forma eficiente, com fallback de rota SPA para refresh em páginas internas.
+* **Zustand**: escolhido para estado global leve, mantendo apenas o mínimo necessário — viagem selecionada, assento selecionado e reserva. Isso evita a complexidade de estados distribuídos e mantém o fluxo previsível.
+
+* **React Hook Form + Zod**: combinação utilizada para gerenciamento e validação de formulários com regras declarativas, tipagem segura e integração simples com a experiência de checkout.
+
+* **React Number Format**: utilizado para aplicar máscara de CPF durante a digitação, melhorando a experiência do usuário sem comprometer a validação e o armazenamento dos dados.
+
+* **Tailwind CSS**: escolhido para acelerar a construção da interface, facilitar a responsividade e manter consistência visual sem a necessidade de grandes arquivos CSS customizados.
+
+* **Lucide React**: adotado para fornecer ícones leves, consistentes e facilmente customizáveis, reforçando a comunicação visual da aplicação sem aumentar significativamente o bundle.
+
+* **Arquitetura por features**: o projeto foi organizado por domínio de negócio, isolando responsabilidades e facilitando manutenção, escalabilidade e evolução do fluxo de reserva.
+
+* **Mocks locais**: as APIs são simuladas através de serviços locais (`localStorage` e dados em memória), permitindo desenvolver e validar todo o fluxo sem dependência de backend.
+
+* **Docker + Nginx**: utilizados para containerização e distribuição da aplicação, garantindo ambiente consistente e suporte adequado ao roteamento SPA em produção.
+
+* **Responsividade e UX**: a interface foi desenvolvida priorizando experiência do usuário em desktop e dispositivos móveis, com foco em clareza visual, acessibilidade básica e consistência entre as etapas do fluxo.
+
 
 ## Como executar localmente
 
@@ -156,6 +171,7 @@ http://localhost:8080
 - Seleção de múltiplos passageiros e assentos
 - Integração com gateway de pagamento
 - Notificações e envio de comprovante de reserva
+- Internacionalização (i18n) para múltiplos idiomas
 
 ## Considerações finais
 
