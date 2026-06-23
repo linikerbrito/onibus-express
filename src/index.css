@@ -14,4 +14,40 @@
   .input-field {
     @apply w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent;
   }
+
+  input[list] {
+    appearance: textfield;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    background-color: transparent;
+  }
+
+  input[list]::-webkit-clear-button,
+  input[list]::-webkit-search-decoration,
+  input[list]::-webkit-search-cancel-button,
+  input[list]::-webkit-search-results-button,
+  input[list]::-webkit-search-results-decoration,
+  input[list]::-webkit-dropdown-button,
+  input[list]::-webkit-details-button,
+  input[list]::-webkit-calendar-picker-indicator {
+    display: none !important;
+    -webkit-appearance: none !important;
+  }
+
+  input[list]::-moz-list-text,
+  input[list]::-moz-list-dropmarker {
+    display: none !important;
+  }
+
+  input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="date"]::-webkit-clear-button,
+  input[type="date"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-outer-spin-button {
+    display: none !important;
+  }
 }

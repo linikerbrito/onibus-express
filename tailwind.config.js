@@ -11,6 +11,9 @@ export default {
         success: '#16a34a',
         error: '#dc2626',
       },
+      backgroundImage: {
+        'gradient-banner': 'linear-gradient(to right, rgba(0,0,0,0.55), rgba(0,0,0,0.15))',
+      },
     },
   },
   plugins: [],
