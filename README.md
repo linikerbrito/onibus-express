@@ -8,6 +8,12 @@
 
 OniBus Express é um frontend de reserva de passagens rodoviárias montado com React e Vite. O foco é entregar um fluxo completo de busca, seleção de assentos, checkout e gestão de reserva com uma base enxuta e pronta para evolução.
 
+## 🚀 Demo
+
+Acesse a aplicação publicada:
+
+https://onibus-express-alpha.vercel.app/
+
 ## Pré-requisitos
 
 - Node.js 20+
