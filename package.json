@@ -16,9 +16,11 @@
     "@hookform/resolvers": "^5.4.0",
     "@tanstack/react-query": "^5.101.0",
     "jsdom": "^29.1.1",
+    "lucide-react": "^1.21.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-hook-form": "^7.79.0",
+    "react-number-format": "^5.4.5",
     "react-router-dom": "^6.30.4",
     "zod": "^3.25.76",
     "zustand": "^4.5.7"
