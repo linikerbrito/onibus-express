@@ -143,41 +143,59 @@ export default function SeatSelectionPage() {
               </div>
 
               {/* Seat Grid */}
-              <div className="text-center text-sm text-slate-600 mb-2">
-                <Bus className="inline-block mr-2 text-slate-400" size={16} />Frente do ônibus
-              </div>
-
               <div className="flex justify-center">
-                <div className="grid grid-cols-8 gap-2 p-6 bg-slate-50 rounded-lg">
-                  {seatMap.map((seat) => {
-                    const isAvailable = seat.available;
-                    const isSelected = selectedSeatId === seat.id;
-                    let seatClass = 'bg-gray-300 text-gray-600 border border-gray-400 cursor-not-allowed';
+                <div className="bg-slate-50 border-2 border-slate-200 rounded-t-[80px] rounded-b-2xl p-8">
+                  <div className="mb-8 flex justify-center">
+                    <div className="px-4 py-2 bg-white rounded-full border text-sm text-slate-600">
+                      <Bus className="inline-block mr-2 text-slate-400" size={16} />Frente
+                    </div>
+                  </div>
 
-                    if (isSelected) {
-                      seatClass = 'bg-blue-500 text-white border-2 border-blue-600 shadow-lg';
-                    } else if (isAvailable) {
-                      seatClass = 'bg-green-100 text-green-900 border border-green-300 hover:bg-green-200 cursor-pointer';
-                    }
+                  <div className="grid grid-cols-5 gap-2">
+                    {seatMap.map((seat, index) => {
+                      const isAvailable = seat.available;
+                      const isSelected = selectedSeatId === seat.id;
 
-                    return (
-                      <button
-                        key={seat.id}
-                        type="button"
-                        onClick={() => handleSeatClick(seat)}
-                        disabled={!isAvailable}
-                        aria-pressed={isSelected}
-                        aria-label={`Assento ${seat.label} ${isAvailable ? 'disponível' : 'ocupado'}`}
-                        className={`
-                          w-10 h-10 rounded flex items-center justify-center text-xs font-semibold
-                          transition-all duration-200
-                          ${seatClass}
-                        `}
-                      >
-                        {seat.label}
-                      </button>
-                    );
-                  })}
+                      let seatClass =
+                        'bg-gray-300 text-gray-600 border border-gray-400 cursor-not-allowed';
+
+                      if (isSelected) {
+                        seatClass =
+                          'bg-blue-500 text-white border-2 border-blue-600 shadow-lg';
+                      } else if (isAvailable) {
+                        seatClass =
+                          'bg-green-100 text-green-900 border border-green-300 hover:bg-green-200 cursor-pointer';
+                      }
+
+                      const positionInRow = index % 4;
+
+                      return (
+                        <div
+                          key={seat.id}
+                          className={
+                            positionInRow === 2
+                              ? 'col-start-4'
+                              : ''
+                          }
+                        >
+                          <button
+                            type="button"
+                            onClick={() => handleSeatClick(seat)}
+                            disabled={!isAvailable}
+                            className={`
+                              w-10 h-10 rounded-lg
+                              flex items-center justify-center
+                              text-xs font-semibold
+                              transition-all duration-200
+                              ${seatClass}
+                            `}
+                          >
+                            {seat.label}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
