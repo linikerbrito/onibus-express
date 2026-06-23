@@ -4,8 +4,9 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import SeatSelectionPage from './SeatSelectionPage';
 import { useReservationStore } from '../../stores/reservation.store';
 import { renderWithProviders } from '../../tests/test-utils';
+import type { Trip } from '../../shared/types/trip';
 
-const trip = {
+const trip: Trip = {
   id: 'trip-1',
   origin: 'São Paulo',
   destination: 'Rio de Janeiro',
@@ -13,6 +14,7 @@ const trip = {
   departureTime: '08:00',
   arrivalTime: '14:30',
   duration: '6h 30m',
+  category: 'Executivo',
   price: 189.9,
   availableSeats: 12,
 };
@@ -49,8 +51,9 @@ describe('SeatSelectionPage', () => {
 
     await userEvent.click(availableSeat);
 
-    const selectedInfo = await screen.findByText(/Assento selecionado:/i);
-    expect(selectedInfo).toHaveTextContent(/seat-2/i);
+    const selectedInfo = await screen.findByText(/Assento selecionado/i);
+    const seatValueElement = selectedInfo.closest('div')?.querySelector('p:last-child');
+    expect(seatValueElement?.textContent).toMatch(/Assento 2/i);
   });
 
   it('does not allow selecting an occupied seat', async () => {

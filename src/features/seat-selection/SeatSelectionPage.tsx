@@ -6,7 +6,23 @@ import { useReservationStore } from '../../stores/reservation.store';
 import { Seat } from '../../shared/types/trip';
 import Button from '../../shared/components/ui/Button';
 import Card from '../../shared/components/ui/Card';
+import PageContainer from '../../shared/components/ui/PageContainer';
+import { formatPriceBR } from '../../shared/utils/formatters';
+
+const getCategoryBadgeClasses = (category: string) => {
+  switch (category) {
+    case 'Executivo':
+      return 'bg-blue-50 text-blue-700 border border-blue-100';
+    case 'Semi-leito':
+      return 'bg-purple-50 text-purple-700 border border-purple-100';
+    case 'Leito':
+      return 'bg-emerald-50 text-emerald-700 border border-emerald-100';
+    default:
+      return 'bg-slate-100 text-slate-700 border border-slate-200';
+  }
+};
 import LoadingState from '../../shared/components/ui/LoadingState';
+import { Calendar, Clock, Timer, Bus } from 'lucide-react';
 
 const seatMap: Seat[] = Array.from({ length: 32 }, (_, index) => ({
   id: `seat-${index + 1}`,
@@ -33,11 +49,18 @@ export default function SeatSelectionPage() {
     }
   }, [trip, setSelectedTrip]);
 
+  const formatDatePtBR = (dateString: string) => {
+    const [year, month, day] = dateString.split('-');
+    return year && month && day ? `${day}/${month}/${year}` : dateString;
+  };
+
   const handleConfirm = () => {
     if (selectedSeatId) {
       navigate('/checkout');
     }
   };
+
+  const formattedSelectedSeat = selectedSeatId ? `Assento ${selectedSeatId.replace('seat-', '')}` : null;
 
   const handleSeatClick = (seat: Seat) => {
     if (!trip || !seat.available) {
@@ -59,20 +82,44 @@ export default function SeatSelectionPage() {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Trip Info */}
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">
-          {trip.origin} → {trip.destination}
-        </h1>
-        <div className="flex gap-4 text-slate-600">
-          <span>📅 {trip.departureDate}</span>
-          <span>🕐 {trip.departureTime}</span>
-          <span>⏱️ {trip.duration}</span>
-        </div>
-      </div>
+    <PageContainer maxWidth="xl">
+      <div className="space-y-8">
+        {/* Trip summary */}
+        <Card className="p-4">
+          <div className="flex flex-col gap-3">
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900">{trip.origin} → {trip.destination}</h1>
+            </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2">
+                <Calendar className="text-slate-400" size={16} />
+                <span className="font-medium text-slate-700">{formatDatePtBR(trip.departureDate)}</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Clock className="text-slate-400" size={16} />
+                <span className="font-medium text-slate-700">{trip.departureTime} → {trip.arrivalTime}</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Timer className="text-slate-400" size={16} />
+                <span className="font-medium text-slate-700">{trip.duration}</span>
+              </div>
+
+              {trip.category && (
+                <div className="flex items-center gap-2">
+                  <Bus className="text-slate-400" size={16} />
+                  <div className={`inline-flex items-center gap-2 px-2 py-0.5 rounded-full text-xs font-medium ${getCategoryBadgeClasses(trip.category)}`}>
+                    {trip.category}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </Card>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Seat Map */}
         <div className="lg:col-span-2 space-y-6">
           <Card>
@@ -96,6 +143,10 @@ export default function SeatSelectionPage() {
               </div>
 
               {/* Seat Grid */}
+              <div className="text-center text-sm text-slate-600 mb-2">
+                <Bus className="inline-block mr-2 text-slate-400" size={16} />Frente do ônibus
+              </div>
+
               <div className="flex justify-center">
                 <div className="grid grid-cols-8 gap-2 p-6 bg-slate-50 rounded-lg">
                   {seatMap.map((seat) => {
@@ -142,38 +193,46 @@ export default function SeatSelectionPage() {
               <div className="space-y-3 border-b border-slate-200 pb-4">
                 <div>
                   <p className="text-sm text-slate-600">Rota</p>
-                  <p className="font-semibold text-slate-900">
-                    {trip.origin} → {trip.destination}
-                  </p>
+                  <p className="font-semibold text-slate-900">{trip.origin} → {trip.destination}</p>
                 </div>
 
                 <div>
-                  <p className="text-sm text-slate-600">Data e horário</p>
-                  <p className="font-semibold text-slate-900">
-                    {trip.departureDate} às {trip.departureTime}
-                  </p>
+                  <p className="text-sm text-slate-600">Data</p>
+                  <p className="font-medium text-slate-700">{formatDatePtBR(trip.departureDate)}</p>
+                </div>
+
+                <div>
+                  <p className="text-sm text-slate-600">Horário</p>
+                  <p className="font-semibold text-slate-900">{trip.departureTime} → {trip.arrivalTime}</p>
                 </div>
 
                 <div>
                   <p className="text-sm text-slate-600">Duração</p>
-                  <p className="font-semibold text-slate-900">{trip.duration}</p>
+                  <p className="font-medium text-slate-700">{trip.duration}</p>
                 </div>
+
+                {trip.category && (
+                  <div>
+                    <p className="text-sm text-slate-600">Categoria</p>
+                    <div className={`inline-flex items-center gap-2 px-2 py-0.5 rounded-full text-xs font-medium ${getCategoryBadgeClasses(trip.category)}`}>
+                      {trip.category}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {selectedSeatId && (
                 <div className="space-y-3 border-b border-slate-200 pb-4">
                   <div>
                     <p className="text-sm text-slate-600">Assento selecionado</p>
-                    <p className="font-bold text-lg text-blue-600">{selectedSeatId}</p>
+                    <p className="font-bold text-lg text-blue-600">{formattedSelectedSeat}</p>
                   </div>
                 </div>
               )}
 
               <div>
                 <p className="text-sm text-slate-600">Valor unitário</p>
-                <p className="text-3xl font-bold text-blue-600">
-                  R$ {trip.price.toFixed(2)}
-                </p>
+                <p className="text-3xl font-bold text-blue-600">R$ {formatPriceBR(trip.price)}</p>
               </div>
 
               <Button
@@ -190,5 +249,6 @@ export default function SeatSelectionPage() {
         </div>
       </div>
     </div>
+  </PageContainer>
   );
 }
